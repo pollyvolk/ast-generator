@@ -20,8 +20,4 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Maven Build and Verify
-      run: mvn -B clean verify
-    - uses: codecov/codecov-action@v2
-      with:
-        name: Code coverage report
-        fail_ci_if_error: true
+      run: mvn -B clean verify -Pqulice
