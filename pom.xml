@@ -45,8 +45,6 @@
                     <version>0.19.4</version>
                     <configuration>
                         <license>file:${qulice.license}</license>
-                        <excludes combine.children="append">
-                        </excludes>
                     </configuration>
                     <executions>
                         <execution>
