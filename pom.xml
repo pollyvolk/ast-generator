@@ -34,8 +34,29 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <qulice.license>${project.basedir}/LICENSE_header.txt</qulice.license>
     </properties>
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.qulice</groupId>
+                    <artifactId>qulice-maven-plugin</artifactId>
+                    <version>0.19.4</version>
+                    <configuration>
+                        <license>file:${qulice.license}</license>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <artifactId>maven-install-plugin</artifactId>
@@ -65,56 +86,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.2</version>
-                <configuration>
-                    <configLocation>/config/checkstyle/checkstyle.xml</configLocation>
-                    <includeResources>false</includeResources>
-                    <includeTestResources>false</includeTestResources>
-                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                    <sourceDirectories>${project.build.sourceDirectory}</sourceDirectories>
-                    <testSourceDirectories>${project.build.testSourceDirectory}</testSourceDirectories>
-                    <outputFile>${project.build.directory}/reports/checkstyle/checkstyle-result.xml</outputFile>
-                    <consoleOutput>true</consoleOutput>
-                    <failsOnError>true</failsOnError>
-                    <linkXRef>true</linkXRef>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.16.0</version>
-                <configuration>
-                    <rulesets>
-                        <ruleset>/config/pmd/ruleset.xml</ruleset>
-                    </rulesets>
-                    <includeResources>false</includeResources>
-                    <includeTestResources>false</includeTestResources>
-                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                    <compileSourceRoots>${project.build.sourceDirectory}</compileSourceRoots>
-                    <testSourceDirectories>${project.build.testSourceDirectory}</testSourceDirectories>
-                    <targetDirectory>${project.build.directory}/reports/pmd/pmd-result.xml</targetDirectory>
-                    <consoleOutput>true</consoleOutput>
-                    <failOnViolation>true</failOnViolation>
-                    <linkXRef>true</linkXRef>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
     <dependencies>
@@ -125,92 +96,26 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-                <version>2.3</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.2</version>
-                <configuration>
-                    <configLocation>/config/checkstyle/checkstyle.xml</configLocation>
-                    <linkXRef>true</linkXRef>
-                    <sourceDirectories>${project.build.sourceDirectory}</sourceDirectories>
-                    <outputFile>${project.build.directory}/reports/checkstyle/checkstyle-result.xml</outputFile>
-                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                </configuration>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>checkstyle</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.16.0</version>
-                <configuration>
-                    <rulesets>
-                        <ruleset>/config/pmd/ruleset.xml</ruleset>
-                    </rulesets>
-                    <linkXref>true</linkXref>
-                    <compileSourceRoots>${project.build.sourceDirectory}</compileSourceRoots>
-                    <targetDirectory>${project.build.directory}/reports/pmd/pmd-result.xml</targetDirectory>
-                    <includeTests>true</includeTests>
-                </configuration>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>pmd</report>
-                        </reports>
-                    </reportSet>
-                    <reportSet>
-                        <id>aggregate</id>
-                        <inherited>false</inherited>
-                        <reports>
-                            <report>aggregate-pmd</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.3.2</version>
-                <configuration>
-                    <linkXref>true</linkXref>
-                    <compileSourceRoots>${project.build.sourceDirectory}</compileSourceRoots>
-                    <targetDirectory>${project.build.directory}/reports/javadoc/javadoc-result.xml</targetDirectory>
-                    <includeTests>true</includeTests>
-                </configuration>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>javadoc</report>
-                            <report>test-javadoc</report>
-                        </reports>
-                    </reportSet>
-                    <reportSet>
-                        <id>aggregate</id>
-                        <inherited>false</inherited>
-                        <reports>
-                            <report>aggregate</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-        </plugins>
-    </reporting>
-    <distributionManagement>
-        <site>
-            <id>localhost</id>
-            <url>file:///${project.build.directory}/reports</url>
-        </site>
-    </distributionManagement>
+    <profiles>
+        <profile>
+            <id>qulice</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.qulice</groupId>
+                        <artifactId>qulice-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>qulice-check</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
