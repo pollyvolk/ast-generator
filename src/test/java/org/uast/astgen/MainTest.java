@@ -27,13 +27,13 @@ public class MainTest {
         final String[] example = {
             MainTest.ARG,
         };
-        boolean caught = false;
+        boolean caughtEx = false;
         try {
             Main.main(example);
         } catch (final IllegalArgumentException exc) {
-            caught = true;
+            caughtEx = true;
         }
-        Assertions.assertFalse(caught);
+        Assertions.assertFalse(caughtEx);
     }
 
     /**
