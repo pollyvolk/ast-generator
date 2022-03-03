@@ -46,7 +46,6 @@
                     <configuration>
                         <license>file:${qulice.license}</license>
                         <excludes combine.children="append">
-                            <exclude>duplicatefinder:.*</exclude>
                             <exclude>dependencies:.*</exclude>
                         </excludes>
                     </configuration>
